@@ -9,7 +9,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         /* ==========================================================================
@@ -575,6 +575,16 @@
             transform: translateY(-4px);
         }
 
+        .portfolio-card.coming-soon-card {
+            border-color: rgba(255, 107, 53, 0.4);
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, var(--bg-card) 100%);
+        }
+
+        .portfolio-card.coming-soon-card:hover {
+            border-color: var(--accent-orange);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.25);
+        }
+
         .portfolio-card-header {
             margin-bottom: 1rem;
         }
@@ -587,6 +597,18 @@
             letter-spacing: 1px;
             margin-bottom: 0.5rem;
             display: block;
+        }
+
+        .coming-soon-badge {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--accent-orange);
+            border: 1px solid rgba(255, 107, 53, 0.4);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .portfolio-card h3 {
@@ -1207,7 +1229,7 @@
             </div>
         </div>
 
-        <!-- Tech Stack Strip -->
+        <!-- Tech Strip Banner -->
         <div class="tech-strip">
             <div class="container tech-strip-inner">
                 <span class="tech-item">⚡ HTML5 / CSS3</span>
@@ -1226,8 +1248,8 @@
     <section class="section-padding" id="work">
         <div class="container">
             <div class="section-tag">PORTFOLIO & SHOWCASE</div>
-            <h2 class="section-heading">Featured Work</h2>
-            <p class="section-subheading">Real projects and custom web applications developed under YJDEV STUDIOS.</p>
+            <h2 class="section-heading">Featured Work & Projects</h2>
+            <p class="section-subheading">Real projects, client platforms, and custom web applications developed under YJDEV STUDIOS.</p>
 
             <!-- Main Featured Project Card (RAGE SMP) -->
             <div class="featured-project-card">
@@ -1263,18 +1285,74 @@
                 </div>
             </div>
 
-            <!-- Other Projects Grid -->
+            <!-- Portfolio Grid with All Projects & BDSMSMP Coming Soon -->
             <div class="portfolio-grid">
+                
+                <!-- BDSMSMP (Coming Soon) -->
+                <div class="portfolio-card coming-soon-card">
+                    <div class="portfolio-card-header">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span class="portfolio-tag" style="color: var(--accent-orange); margin-bottom: 0;">MINECRAFT SMP NETWORK</span>
+                            <span class="coming-soon-badge">COMING SOON</span>
+                        </div>
+                        <h3>BDSMSMP</h3>
+                        <p>An upcoming multiplayer Minecraft SMP network featuring dedicated survival hubs, server guides, player statistics, and custom community tools.</p>
+                    </div>
+                    <div class="portfolio-card-footer">
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">Minecraft SMP Hub</span>
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-orange); font-weight: 700;">⏳ Launching Soon</span>
+                    </div>
+                </div>
+
                 <!-- YJDEV STUDIOS -->
                 <div class="portfolio-card">
                     <div class="portfolio-card-header">
                         <span class="portfolio-tag">STUDIO WEBSITE</span>
                         <h3>YJDEV STUDIOS</h3>
-                        <p>The main portfolio hub showcasing client development services, custom web components, and developer contact routes.</p>
+                        <p>The main studio portfolio hub showcasing client web development services, custom web components, and developer contact routes.</p>
                     </div>
                     <div class="portfolio-card-footer">
                         <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">Custom Landing Page</span>
                         <a href="#home" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Current Site</a>
+                    </div>
+                </div>
+
+                <!-- YJDEV HUB -->
+                <div class="portfolio-card">
+                    <div class="portfolio-card-header">
+                        <span class="portfolio-tag">EDUCATIONAL PLATFORM</span>
+                        <h3>YJDEV HUB</h3>
+                        <p>Student study platform and web portal featuring exam schedules, score tracking, study tools, and an AI-powered answer grader.</p>
+                    </div>
+                    <div class="portfolio-card-footer">
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">Educational Web App</span>
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: #10b981; font-weight: 600;">Active Platform</span>
+                    </div>
+                </div>
+
+                <!-- UMA CLOTHINGS -->
+                <div class="portfolio-card">
+                    <div class="portfolio-card-header">
+                        <span class="portfolio-tag">E-COMMERCE & RETAIL</span>
+                        <h3>UMA CLOTHINGS</h3>
+                        <p>A fashion clothing store web application designed for women's wear, featuring product showcases, custom suit collections, and order routing.</p>
+                    </div>
+                    <div class="portfolio-card-footer">
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">E-Commerce Web App</span>
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: #10b981; font-weight: 600;">Live Web App</span>
+                    </div>
+                </div>
+
+                <!-- BSB RETAIL STORE -->
+                <div class="portfolio-card">
+                    <div class="portfolio-card-header">
+                        <span class="portfolio-tag">ONLINE STORE</span>
+                        <h3>BSB RETAIL Store</h3>
+                        <p>Online grocery and retail shopping frontend prototype built with responsive product catalogs and clean shopping cart interfaces.</p>
+                    </div>
+                    <div class="portfolio-card-footer">
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">Retail Web Store</span>
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">Store Prototype</span>
                     </div>
                 </div>
 
@@ -1287,7 +1365,7 @@
                     </div>
                     <div class="portfolio-card-footer">
                         <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">AI Assistant UI</span>
-                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--primary-red);">Active Project</span>
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--primary-red); font-weight: 600;">Active Integration</span>
                     </div>
                 </div>
 
@@ -1296,13 +1374,27 @@
                     <div class="portfolio-card-header">
                         <span class="portfolio-tag">EXPERIMENTAL DEVELOPMENT</span>
                         <h3>GHOST AI</h3>
-                        <p>A web application chatbot project focusing on clean conversational user interfaces and API-driven text responses.</p>
+                        <p>A web application chatbot project focusing on clean conversational user interfaces, responsive design, and API-driven text responses.</p>
                     </div>
                     <div class="portfolio-card-footer">
-                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">Web Application</span>
-                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--primary-red);">Experimental</span>
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">Chatbot Application</span>
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--primary-red); font-weight: 600;">Experimental</span>
                     </div>
                 </div>
+
+                <!-- SLAYINGHANDS -->
+                <div class="portfolio-card">
+                    <div class="portfolio-card-header">
+                        <span class="portfolio-tag">GAME DEVELOPMENT</span>
+                        <h3>SLAYINGHANDS</h3>
+                        <p>An aura-based combat game developed under YJDEV STUDIOS featuring custom combat mechanics, player progression, and aura systems.</p>
+                    </div>
+                    <div class="portfolio-card-footer">
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">Aura Combat Game</span>
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-orange); font-weight: 600;">In Development</span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -1676,10 +1768,10 @@
                         <div class="form-group">
                             <label class="form-label" for="projectType">Project Type</label>
                             <select id="projectType" class="form-select">
-                                <option value="Minecraft Server Site">Minecraft Server Website</option>
+                                <option value="Minecraft Server / SMP Site">Minecraft Server / SMP Website</option>
                                 <option value="Creator / Streamer Site">Creator / Streamer Website</option>
                                 <option value="Business Landing Page">Business / Service Landing Page</option>
-                                <option value="Web Store / Rank UI">Web Store / Rank Layout</option>
+                                <option value="E-Commerce / Store UI">E-Commerce / Rank Store</option>
                                 <option value="AI Web App">AI Web App / Interface</option>
                                 <option value="Other Web Project">Other Custom Project</option>
                             </select>
@@ -1739,7 +1831,7 @@
                         YJDEV STUDIOS <span class="accent-box">RAGE BG</span>
                     </div>
                     <p>
-                        Built by RAGE BG — Independent web developer creating custom websites for creators, gaming communities, and ambitious web projects.
+                        Built by RAGE BG — Independent web developer creating custom websites for creators, gaming communities, e-commerce brands, and ambitious web projects.
                     </p>
                 </div>
 
@@ -1747,9 +1839,14 @@
                     <div class="footer-title">Projects</div>
                     <ul class="footer-links">
                         <li><a href="https://www.ragesmp.workers.dev/" target="_blank" rel="noopener">RAGE SMP</a></li>
+                        <li><a href="#work">BDSMSMP <span style="font-size:0.75rem; color:var(--accent-orange); font-weight:700;">(Coming Soon)</span></a></li>
                         <li><a href="#home">YJDEV STUDIOS</a></li>
+                        <li><a href="#work">YJDEV HUB</a></li>
+                        <li><a href="#work">UMA CLOTHINGS</a></li>
+                        <li><a href="#work">BSB RETAIL Store</a></li>
                         <li><a href="#work">RAGE SMP AI</a></li>
                         <li><a href="#work">GHOST AI</a></li>
+                        <li><a href="#work">SLAYINGHANDS</a></li>
                     </ul>
                 </div>
 
