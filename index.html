@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YJDEV STUDIOS × RAGE BG | Custom Website Development</title>
+    <meta name="description" content="Custom website development for creators, Minecraft servers, businesses, communities, and ambitious web projects by RAGE BG.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. ROOT VARIABLES & BASE STYLES
+           ========================================================================== */
+        :root {
+            --bg-dark: #07080b;
+            --bg-card: #0f1219;
+            --bg-card-hover: #151a24;
+            --bg-glass: rgba(15, 18, 25, 0.75);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-active: rgba(255, 42, 66, 0.4);
+            
+            --primary-red: #ff2a42;
+            --primary-red-hover: #e01f37;
+            --primary-glow: rgba(255, 42, 66, 0.35);
+            --accent-orange: #ff6b35;
+            --accent-discord: #5865f2;
+            
+            --text-main: #f3f5f9;
+            --text-muted: #94a3b8;
+            --text-dark: #64748b;
+            
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+
+            --container-max: 1200px;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Subtle Ambient Grid Background */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .bg-glow-orb {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            filter: blur(90px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .glow-top { top: -200px; left: 50%; transform: translateX(-50%); }
+        .glow-bottom { bottom: -200px; right: -100px; background: radial-gradient(circle, rgba(255, 107, 53, 0.2) 0%, transparent 70%); }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input, select, textarea {
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Typography Helpers */
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 30%, var(--primary-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.825rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--primary-red);
+            background: rgba(255, 42, 66, 0.08);
+            border: 1px solid rgba(255, 42, 66, 0.2);
+            padding: 0.35rem 0.85rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+        }
+
+        .section-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .section-subheading {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+
+        /* ==========================================================================
+           2. NAVIGATION
+           ========================================================================== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 76px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+
+        .brand-logo .accent-box {
+            background: var(--primary-red);
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            font-size: 0.925rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #fff;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-red);
+            border-radius: 2px;
+            box-shadow: 0 0 8px var(--primary-red);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.925rem;
+            padding: 0.75rem 1.4rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            border: none;
+            outline: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-red);
+            color: #fff;
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-red-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(255, 42, 66, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Hamburger */
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* ==========================================================================
+           3. HERO SECTION & LIVE STATUS
+           ========================================================================== */
+        .hero-section {
+            padding: 5rem 0 4rem;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -1px;
+            margin-bottom: 1.25rem;
+            color: #fff;
+        }
+
+        .hero-description {
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-ctas {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .trust-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.825rem;
+            color: var(--text-dark);
+            flex-wrap: wrap;
+        }
+
+        .trust-line span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Live Development Status Card */
+        .status-card-wrapper {
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .status-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.85rem;
+            background: rgba(15, 18, 25, 0.85);
+            border: 1px solid var(--border-subtle);
+            padding: 0.65rem 1.25rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .status-dot-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 12px;
+            height: 12px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #10b981;
+            border-radius: 50%;
+        }
+
+        .status-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #10b981;
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+            opacity: 0.75;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            70% { transform: scale(2.2); opacity: 0; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+
+        .status-text {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .status-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-left: 1px solid var(--border-subtle);
+            padding-left: 0.85rem;
+        }
+
+        /* Tech Strip Banner */
+        .tech-strip {
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+            margin-top: 3rem;
+            background: rgba(7, 8, 11, 0.5);
+        }
+
+        .tech-strip-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .tech-item {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0.75;
+            transition: var(--transition-smooth);
+        }
+
+        .tech-item:hover {
+            opacity: 1;
+            color: var(--primary-red);
+        }
+
+        /* ==========================================================================
+           4. FEATURED PROJECT & WORK
+           ========================================================================== */
+        .section-padding {
+            padding: 6rem 0;
+        }
+
+        .featured-project-card {
+            background: linear-gradient(135deg, rgba(255, 42, 66, 0.12) 0%, rgba(15, 18, 25, 0.95) 100%);
+            border: 1px solid var(--border-active);
+            border-radius: var(--radius-lg);
+            padding: clamp(2rem, 5vw, 3.5rem);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--primary-red);
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 0.3rem 0.75rem;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .featured-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-category {
+            font-family: var(--font-mono);
+            color: var(--primary-red);
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+            display: block;
+        }
+
+        .featured-desc {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* UI Preview Window Graphic */
+        .ui-preview-window {
+            background: #090b10;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        .window-header {
+            background: #12151e;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .window-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .window-url {
+            margin-left: auto;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-dark);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .window-body {
+            padding: 2rem;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(255, 42, 66, 0.1) 0%, transparent 80%);
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .portfolio-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .portfolio-card:hover {
+            border-color: rgba(255, 42, 66, 0.3);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+        }
+
+        .portfolio-card-header {
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--primary-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .portfolio-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-card p {
+            color: var(--text-muted);
+            font-size: 0.925rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .portfolio-card-footer {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* ==========================================================================
+           5. SERVICES SECTION
+           ========================================================================== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .service-card:hover {
+            border-color: var(--border-active);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .service-icon {
+            font-size: 2.25rem;
+            margin-bottom: 1.25rem;
+            display: inline-block;
+        }
+
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .service-features {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .service-features li {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        /* ==========================================================================
+           6. WHY WORK WITH RAGE BG
+           ========================================================================== */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .why-card {
+            background: rgba(15, 18, 25, 0.5);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+        }
+
+        .why-card .why-icon {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-card h4 {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .why-card p {
+            font-size: 0.925rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ==========================================================================
+           7. PROCESS TIMELINE
+           ========================================================================== */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .process-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .process-number {
+            font-family: var(--font-mono);
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--primary-red);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+
+        .process-card h4 {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .process-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ==========================================================================
+           8. PRICING / SPECIAL OFFER
+           ========================================================================== */
+        .offer-box {
+            background: linear-gradient(135deg, rgba(255, 42, 66, 0.15) 0%, rgba(15, 18, 25, 0.9) 100%);
+            border: 1px solid var(--primary-red);
+            border-radius: var(--radius-lg);
+            padding: clamp(2rem, 5vw, 3.5rem);
+            text-align: center;
+            position: relative;
+            box-shadow: 0 15px 40px var(--primary-glow);
+        }
+
+        .offer-header {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .offer-badge {
+            display: inline-block;
+            background: var(--primary-red);
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .offer-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .offer-text {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            margin-bottom: 1.5rem;
+        }
+
+        .offer-disclaimer {
+            font-size: 0.825rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 1.5rem auto 0;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.85rem 1.25rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+        }
+
+        /* ==========================================================================
+           9. FAQ ACCORDION
+           ========================================================================== */
+        .faq-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .faq-item.active {
+            border-color: rgba(255, 42, 66, 0.4);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            background: none;
+            border: none;
+            color: #fff;
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-icon {
+            font-size: 1.25rem;
+            color: var(--primary-red);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .faq-answer-inner {
+            padding: 0 1.5rem 1.25rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           10. CONTACT & INQUIRY FORM
+           ========================================================================== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .contact-info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+        }
+
+        .direct-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-discord {
+            background: var(--accent-discord);
+            color: #fff;
+        }
+        .btn-discord:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+        }
+
+        .contact-detail-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .contact-detail-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-detail-value {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.95rem;
+            word-break: break-all;
+        }
+
+        /* Inquiry Form */
+        .form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            background: #090b10;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 0.75rem 1rem;
+            color: #fff;
+            transition: var(--transition-smooth);
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        /* Generated Message Output Box */
+        .prepared-message-box {
+            display: none;
+            margin-top: 1.5rem;
+            background: #080a0f;
+            border: 1px solid var(--border-active);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+        }
+
+        .prepared-message-box.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .prepared-text {
+            font-family: var(--font-mono);
+            font-size: 0.825rem;
+            color: #4ade80;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1rem;
+            border-radius: 6px;
+            white-space: pre-wrap;
+            margin-bottom: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        /* ==========================================================================
+           11. FOOTER
+           ========================================================================== */
+        .footer {
+            background: #040507;
+            border-top: 1px solid var(--border-subtle);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            max-width: 320px;
+        }
+
+        .footer-title {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-red);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+        }
+
+        /* ==========================================================================
+           12. RESPONSIVE BREAKPOINTS & ACCESSIBILITY
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 76px;
+                left: 0;
+                width: 100%;
+                background: #090b10;
+                border-bottom: 1px solid var(--border-subtle);
+                flex-direction: column;
+                padding: 2rem 1.5rem;
+                gap: 1.25rem;
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+            }
+
+            .nav-actions {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.25rem;
+            }
+
+            .status-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                border-radius: var(--radius-md);
+            }
+
+            .status-sub {
+                border-left: none;
+                border-top: 1px solid var(--border-subtle);
+                padding-left: 0;
+                padding-top: 0.5rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .status-pulse { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Grid & Glows -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow-orb glow-top"></div>
+    <div class="bg-glow-orb glow-bottom"></div>
+
+    <!-- ==========================================================================
+       NAVIGATION
+       ========================================================================== -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#home" class="brand-logo" aria-label="YJDEV STUDIOS Home">
+                YJDEV STUDIOS <span class="accent-box">RAGE BG</span>
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#work" class="nav-link">Work</a></li>
+                <li><a href="#process" class="nav-link">Process</a></li>
+                <li><a href="#faq" class="nav-link">FAQ</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="#contact" class="btn btn-primary">Hire Me</a>
+            </div>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation Menu">
+                ☰
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==========================================================================
+       HERO SECTION
+       ========================================================================== -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="section-tag">
+                        <span>YJDEV STUDIOS • WEB DEVELOPMENT</span>
+                    </div>
+
+                    <h1 class="hero-title">
+                        HIRE RAGE BG — <br>
+                        <span class="gradient-text">LET’S BUILD YOUR WEBSITE.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Custom websites built for creators, Minecraft servers, businesses, communities, and ambitious web projects. Clean, modern, responsive code tailored strictly to your vision.
+                    </p>
+
+                    <div class="hero-ctas">
+                        <a href="#contact" class="btn btn-primary">🚀 Hire RAGE BG</a>
+                        <a href="#work" class="btn btn-secondary">👀 View My Work</a>
+                    </div>
+
+                    <div class="trust-line">
+                        <span>⚡ Custom design</span>
+                        <span>•</span>
+                        <span>📱 Responsive UI</span>
+                        <span>•</span>
+                        <span>🛠️ Modern web technology</span>
+                    </div>
+
+                    <!-- Live Developer Status Card -->
+                    <div class="status-card-wrapper">
+                        <div class="status-card">
+                            <div class="status-dot-container">
+                                <div class="status-dot"></div>
+                                <div class="status-pulse"></div>
+                            </div>
+                            <span class="status-text">● AVAILABLE FOR PROJECTS</span>
+                            <span class="status-sub">Currently accepting website projects</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Stack Strip -->
+        <div class="tech-strip">
+            <div class="container tech-strip-inner">
+                <span class="tech-item">⚡ HTML5 / CSS3</span>
+                <span class="tech-item">⚡ JavaScript</span>
+                <span class="tech-item">⚡ Cloudflare Workers</span>
+                <span class="tech-item">⚡ Vercel Deployment</span>
+                <span class="tech-item">⚡ REST APIs</span>
+                <span class="tech-item">⚡ Responsive Web Design</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       FEATURED PROJECT & PORTFOLIO WORK
+       ========================================================================== -->
+    <section class="section-padding" id="work">
+        <div class="container">
+            <div class="section-tag">PORTFOLIO & SHOWCASE</div>
+            <h2 class="section-heading">Featured Work</h2>
+            <p class="section-subheading">Real projects and custom web applications developed under YJDEV STUDIOS.</p>
+
+            <!-- Main Featured Project Card (RAGE SMP) -->
+            <div class="featured-project-card">
+                <div class="featured-badge">Featured Project</div>
+                <div class="featured-grid">
+                    <div>
+                        <span class="featured-category">MINECRAFT NETWORK & COMMUNITY</span>
+                        <h3 class="featured-title">RAGE SMP</h3>
+                        <p class="featured-desc">
+                            A custom Minecraft network experience featuring dedicated server information, rank layouts, store UI, rules, and community integrations built specifically for multiplayer engagement.
+                        </p>
+                        <a href="https://www.ragesmp.workers.dev/" target="_blank" rel="noopener" class="btn btn-primary">
+                            🌐 Visit RAGE SMP Website
+                        </a>
+                    </div>
+
+                    <div class="ui-preview-window">
+                        <div class="window-header">
+                            <div class="window-dot dot-red"></div>
+                            <div class="window-dot dot-yellow"></div>
+                            <div class="window-dot dot-green"></div>
+                            <div class="window-url">ragesmp.workers.dev</div>
+                        </div>
+                        <div class="window-body">
+                            <div style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem;">
+                                RAGE SMP NETWORK
+                            </div>
+                            <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--primary-red);">
+                                STATUS: ONLINE • CLOUDFLARE HOSTED
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Projects Grid -->
+            <div class="portfolio-grid">
+                <!-- YJDEV STUDIOS -->
+                <div class="portfolio-card">
+                    <div class="portfolio-card-header">
+                        <span class="portfolio-tag">STUDIO WEBSITE</span>
+                        <h3>YJDEV STUDIOS</h3>
+                        <p>The main portfolio hub showcasing client development services, custom web components, and developer contact routes.</p>
+                    </div>
+                    <div class="portfolio-card-footer">
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">Custom Landing Page</span>
+                        <a href="#home" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Current Site</a>
+                    </div>
+                </div>
+
+                <!-- RAGE SMP AI -->
+                <div class="portfolio-card">
+                    <div class="portfolio-card-header">
+                        <span class="portfolio-tag">AI INTEGRATION</span>
+                        <h3>RAGE SMP AI</h3>
+                        <p>An experimental AI-powered helper interface designed to assist players with server commands, rules, and network guides.</p>
+                    </div>
+                    <div class="portfolio-card-footer">
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">AI Assistant UI</span>
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--primary-red);">Active Project</span>
+                    </div>
+                </div>
+
+                <!-- GHOST AI -->
+                <div class="portfolio-card">
+                    <div class="portfolio-card-header">
+                        <span class="portfolio-tag">EXPERIMENTAL DEVELOPMENT</span>
+                        <h3>GHOST AI</h3>
+                        <p>A web application chatbot project focusing on clean conversational user interfaces and API-driven text responses.</p>
+                    </div>
+                    <div class="portfolio-card-footer">
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dark);">Web Application</span>
+                        <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--primary-red);">Experimental</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SERVICES SECTION
+       ========================================================================== -->
+    <section class="section-padding" id="services" style="background: rgba(15, 18, 25, 0.4);">
+        <div class="container">
+            <div class="section-tag">CAPABILITIES</div>
+            <h2 class="section-heading">Custom Web Development Services</h2>
+            <p class="section-subheading">Tailored solutions built with modern web standards — no cookie-cutter templates.</p>
+
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <div class="service-icon">🎮</div>
+                    <h3>Minecraft Server Websites</h3>
+                    <p>Complete custom websites for Bedrock and Java servers with player-focused features and modern gaming aesthetic.</p>
+                    <ul class="service-features">
+                        <li>Server Information</li>
+                        <li>Rank Showcase</li>
+                        <li>Store Layouts</li>
+                        <li>Rules & Guides</li>
+                        <li>Java/Bedrock IPs</li>
+                    </ul>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <div class="service-icon">📺</div>
+                    <h3>Creator Websites</h3>
+                    <p>High-impact landing pages for YouTubers, streamers, and digital content creators to centralize their community.</p>
+                    <ul class="service-features">
+                        <li>YouTube / Twitch</li>
+                        <li>Social Link Hub</li>
+                        <li>Project Highlights</li>
+                        <li>Media Galleries</li>
+                    </ul>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <div class="service-icon">🏢</div>
+                    <h3>Business Websites</h3>
+                    <p>Professional landing pages and portfolio sites tailored for small businesses, services, and personal brands.</p>
+                    <ul class="service-features">
+                        <li>Landing Pages</li>
+                        <li>Service Sections</li>
+                        <li>Contact Hubs</li>
+                        <li>Brand Colors</li>
+                    </ul>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <div class="service-icon">🛒</div>
+                    <h3>Store Websites</h3>
+                    <p>Interactive web shop frontends designed for presenting digital ranks, items, or services with clean buying UIs.</p>
+                    <ul class="service-features">
+                        <li>Product Cards</li>
+                        <li>Rank Pricing</li>
+                        <li>Shopping UI</li>
+                        <li>Checkout Styling</li>
+                    </ul>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3>AI-Powered Websites</h3>
+                    <p>Modern frontend interfaces connected to AI backends, assistant chatboxes, or API integrations.</p>
+                    <ul class="service-features">
+                        <li>Chat Interfaces</li>
+                        <li>AI Assistants</li>
+                        <li>API Hookups</li>
+                        <li>Custom Web Apps</li>
+                    </ul>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="service-card">
+                    <div class="service-icon">☁️</div>
+                    <h3>Cloud & Web Infrastructure</h3>
+                    <p>Deploying websites on fast global edge networks for maximum performance and 99.9% uptime.</p>
+                    <ul class="service-features">
+                        <li>Cloudflare Workers</li>
+                        <li>Vercel Hosting</li>
+                        <li>Static Web Apps</li>
+                        <li>API Routing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       WHY WORK WITH RAGE BG
+       ========================================================================== -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-tag">ADVANTAGES</div>
+            <h2 class="section-heading">Why Work With RAGE BG?</h2>
+            <p class="section-subheading">Direct developer collaboration with an emphasis on code quality, speed, and design integrity.</p>
+
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">⚡</div>
+                    <h4>Custom-Built</h4>
+                    <p>Designed specifically around your project instead of forcing your content into a bloated generic template.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">🎨</div>
+                    <h4>Unique Visual Identity</h4>
+                    <p>Your custom branding, color palette, logo accents, and typography executed seamlessly.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">📱</div>
+                    <h4>100% Responsive</h4>
+                    <p>Hand-crafted layout systems designed to look and work great on phones, tablets, and desktop displays.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">🛠️</div>
+                    <h4>Developer-Focused</h4>
+                    <p>Built with clean HTML, CSS, and lightweight JavaScript for maximum loading speed and reliability.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">☁️</div>
+                    <h4>Modern Deployment</h4>
+                    <p>Full setup on fast cloud platforms like Cloudflare Workers and Vercel for fast load times.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">🤝</div>
+                    <h4>Direct Communication</h4>
+                    <p>Discuss your ideas, updates, and website feedback directly with the developer building it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       DEVELOPMENT PROCESS
+       ========================================================================== -->
+    <section class="section-padding" id="process" style="background: rgba(15, 18, 25, 0.4);">
+        <div class="container">
+            <div class="section-tag">WORKFLOW</div>
+            <h2 class="section-heading">Simple 4-Step Process</h2>
+            <p class="section-subheading">From initial idea to published website in a structured sequence.</p>
+
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-number">01</div>
+                    <h4>IDEA</h4>
+                    <p>You share your project concept, target audience, required sections, and design preferences.</p>
+                </div>
+
+                <div class="process-card">
+                    <div class="process-number">02</div>
+                    <h4>DESIGN</h4>
+                    <p>We plan the color scheme, layout structure, navigation flow, and specific features.</p>
+                </div>
+
+                <div class="process-card">
+                    <div class="process-number">03</div>
+                    <h4>BUILD</h4>
+                    <p>The code is written from scratch, tested across mobile devices, and refined for speed.</p>
+                </div>
+
+                <div class="process-card">
+                    <div class="process-number">04</div>
+                    <h4>DEPLOY</h4>
+                    <p>The completed website is published online with working domain routing and live links.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       PRICING & SPECIAL OFFER
+       ========================================================================== -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="offer-box">
+                <div class="offer-header">
+                    <span class="offer-badge">LIMITED TIME CLIENT OFFER</span>
+                    <h2 class="offer-title">START YOUR WEBSITE PROJECT</h2>
+                    <p class="offer-text">
+                        <strong>FIRST 2 CLIENTS:</strong> Your first 2 website projects can be built <strong>FREE</strong> as part of our studio launch portfolio promotion.
+                    </p>
+                    <a href="#contact" class="btn btn-primary" style="padding: 0.9rem 2rem; font-size: 1rem;">
+                        🔥 Claim a Free Spot Now
+                    </a>
+                </div>
+
+                <div class="offer-disclaimer">
+                    ℹ️ <strong>Note & Terms:</strong> Free offer applies strictly to the first two accepted client projects for custom web design and development. Additional costs may apply for paid custom domains (.com/.net), third-party paid services, premium assets, paid APIs, or enterprise hosting upgrades.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       FAQ SECTION
+       ========================================================================== -->
+    <section class="section-padding" id="faq">
+        <div class="container">
+            <div class="section-tag">QUESTIONS & ANSWERS</div>
+            <h2 class="section-heading">Frequently Asked Questions</h2>
+            <p class="section-subheading">Clear answers about how web projects are handled.</p>
+
+            <div class="faq-wrapper">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Do I need to know coding?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Not at all. Everything from code structure, responsive design, styling, and deployment is handled for you. You only need to share your vision and content.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How long does a website take to build?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Standard landing pages and creator sites usually take 2 to 5 days. Larger projects like Minecraft server hubs or multi-page sites typically take 5 to 10 days depending on requirements.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can you build websites specifically for Minecraft servers?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Yes! We specialize in Minecraft server sites featuring Bedrock/Java IP copying, store rank showcases, server rules, staff lists, and custom network branding.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can you connect third-party APIs or AI features?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Yes, frontend integrations with webhooks, AI models, chat interfaces, and Cloudflare Workers can be configured.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Do you assist with website deployment?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Yes. Completed sites are deployed on modern fast hosts like Vercel or Cloudflare Workers with working subdomains (.vercel.app / .workers.dev).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can I request custom colors and themes?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Absolutely. Every layout is built around your preferred colors, logos, aesthetic choices, and brand guidelines.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Are custom domain names included?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Default deployment includes free subdomains (such as name.vercel.app or name.workers.dev). If you want a custom domain (like yoursite.com), domain purchase fees are separate.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What happens after I contact you?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            We will discuss your website goals directly on Discord or email, review the features you need, and confirm project timelines before building begins.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       CONTACT & INQUIRY FORM
+       ========================================================================== -->
+    <section class="section-padding" id="contact" style="background: rgba(15, 18, 25, 0.4);">
+        <div class="container">
+            <div class="section-tag">GET IN TOUCH</div>
+            <h2 class="section-heading">READY TO BUILD?</h2>
+            <p class="section-subheading">Tell me what you're building and what you want your website to do.</p>
+
+            <div class="contact-grid">
+                <!-- Direct Contacts -->
+                <div class="contact-info-card">
+                    <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem;">Direct Channels</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+                        Reach out directly on Discord or Email to discuss your project scope or claim a spot.
+                    </p>
+
+                    <div class="direct-buttons">
+                        <a href="https://discord.gg/NEHBEND84a" target="_blank" rel="noopener" class="btn btn-discord">
+                            💬 Join Discord Server
+                        </a>
+                        <a href="mailto:budhwaryuvraj1@gmail.com" class="btn btn-secondary">
+                            📧 Send Email
+                        </a>
+                    </div>
+
+                    <div class="contact-detail-box">
+                        <div class="contact-detail-label">Discord Username</div>
+                        <div class="contact-detail-value">RAGEBG.EXE</div>
+                    </div>
+
+                    <div class="contact-detail-box">
+                        <div class="contact-detail-label">Contact Email</div>
+                        <div class="contact-detail-value">budhwaryuvraj1@gmail.com</div>
+                    </div>
+
+                    <div class="contact-detail-box">
+                        <div class="contact-detail-label">Discord Invite</div>
+                        <div class="contact-detail-value">discord.gg/NEHBEND84a</div>
+                    </div>
+                </div>
+
+                <!-- Project Inquiry Form -->
+                <div class="form-card">
+                    <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem;">Prepare Project Inquiry</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                        Fill in your project details below to construct a formatted message ready to send via Discord or Email.
+                    </p>
+
+                    <form id="inquiryForm">
+                        <div class="form-group">
+                            <label class="form-label" for="clientName">Your Name / Alias</label>
+                            <input type="text" id="clientName" class="form-input" placeholder="e.g. Alex / Gamer123" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="projectType">Project Type</label>
+                            <select id="projectType" class="form-select">
+                                <option value="Minecraft Server Site">Minecraft Server Website</option>
+                                <option value="Creator / Streamer Site">Creator / Streamer Website</option>
+                                <option value="Business Landing Page">Business / Service Landing Page</option>
+                                <option value="Web Store / Rank UI">Web Store / Rank Layout</option>
+                                <option value="AI Web App">AI Web App / Interface</option>
+                                <option value="Other Web Project">Other Custom Project</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="websiteIdea">Website Idea & Goals</label>
+                            <input type="text" id="websiteIdea" class="form-input" placeholder="Brief description of what you need..." required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="requiredFeatures">Key Features Needed</label>
+                            <textarea id="requiredFeatures" class="form-textarea" rows="3" placeholder="e.g. Dark theme, server IP button, rank list, discord link..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="contactMethod">Preferred Contact</label>
+                            <input type="text" id="contactMethod" class="form-input" placeholder="Your Discord tag or Email address" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            ⚡ Prepare Message Summary
+                        </button>
+                    </form>
+
+                    <!-- Form Prepared Output Box -->
+                    <div class="prepared-message-box" id="preparedBox">
+                        <div style="font-weight: 700; color: #fff; font-size: 0.95rem; margin-bottom: 0.5rem;">
+                            ✓ Form Prepared! Send this through Discord or Email:
+                        </div>
+                        <div class="prepared-text" id="preparedText"></div>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button id="copyMsgBtn" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
+                                📋 Copy Message
+                            </button>
+                            <a href="https://discord.gg/NEHBEND84a" target="_blank" class="btn btn-discord" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
+                                Open Discord
+                            </a>
+                            <a id="emailMailtoLink" href="#" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
+                                Open Email
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        YJDEV STUDIOS <span class="accent-box">RAGE BG</span>
+                    </div>
+                    <p>
+                        Built by RAGE BG — Independent web developer creating custom websites for creators, gaming communities, and ambitious web projects.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="footer-title">Projects</div>
+                    <ul class="footer-links">
+                        <li><a href="https://www.ragesmp.workers.dev/" target="_blank" rel="noopener">RAGE SMP</a></li>
+                        <li><a href="#home">YJDEV STUDIOS</a></li>
+                        <li><a href="#work">RAGE SMP AI</a></li>
+                        <li><a href="#work">GHOST AI</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <div class="footer-title">Connect</div>
+                    <ul class="footer-links">
+                        <li><a href="https://discord.gg/NEHBEND84a" target="_blank" rel="noopener">Discord Server</a></li>
+                        <li><a href="mailto:budhwaryuvraj1@gmail.com">Email Developer</a></li>
+                        <li><a href="#contact">Hire Me</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                © 2026 YJDEV STUDIOS / RAGE BG. All rights reserved. Custom Web Development.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+       VANILLA JAVASCRIPT LOGIC
+       ========================================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Navigation Toggle
+            const mobileToggle = document.getElementById('mobileToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            mobileToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                mobileToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+            });
+
+            // Close mobile menu on link click
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    mobileToggle.textContent = '☰';
+                });
+            });
+
+            // Smooth Scroll Active Link Indicator
+            const sections = document.querySelectorAll('section[id], header[id]');
+            const navItems = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href') === `#${current}`) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // Interactive FAQ Accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const questionBtn = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+
+                questionBtn.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+
+                    // Close all active items
+                    faqItems.forEach(i => {
+                        i.classList.remove('active');
+                        i.querySelector('.faq-answer').style.maxHeight = null;
+                    });
+
+                    // Toggle clicked item
+                    if (!isActive) {
+                        item.classList.add('active');
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // Project Inquiry Form Message Generator
+            const inquiryForm = document.getElementById('inquiryForm');
+            const preparedBox = document.getElementById('preparedBox');
+            const preparedText = document.getElementById('preparedText');
+            const copyMsgBtn = document.getElementById('copyMsgBtn');
+            const emailMailtoLink = document.getElementById('emailMailtoLink');
+
+            inquiryForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const clientName = document.getElementById('clientName').value.trim();
+                const projectType = document.getElementById('projectType').value;
+                const websiteIdea = document.getElementById('websiteIdea').value.trim();
+                const requiredFeatures = document.getElementById('requiredFeatures').value.trim() || 'Not specified';
+                const contactMethod = document.getElementById('contactMethod').value.trim();
+
+                const formattedMessage = 
+`--- NEW WEBSITE INQUIRY ---
+Name/Alias: ${clientName}
+Project Type: ${projectType}
+Idea: ${websiteIdea}
+Required Features: ${requiredFeatures}
+Contact Info: ${contactMethod}
+---------------------------`;
+
+                preparedText.textContent = formattedMessage;
+                preparedBox.classList.add('active');
+
+                // Update email mailto link
+                const mailtoSubject = encodeURIComponent(`Website Project Inquiry - ${clientName}`);
+                const mailtoBody = encodeURIComponent(formattedMessage);
+                emailMailtoLink.href = `mailto:budhwaryuvraj1@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+            });
+
+            // Copy Message Button
+            copyMsgBtn.addEventListener('click', () => {
+                const textToCopy = preparedText.textContent;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = copyMsgBtn.textContent;
+                    copyMsgBtn.textContent = '✓ Copied!';
+                    setTimeout(() => {
+                        copyMsgBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Copy failed:', err);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
